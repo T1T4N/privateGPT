@@ -40,27 +40,35 @@ def main():
         case _default:
             print(f"Model {model_type} not supported!")
             exit;
-    qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents= not args.hide_source)
-    # Interactive questions and answers
-    while True:
-        query = input("\nEnter a query: ")
-        if query == "exit":
-            break
 
-        # Get the answer from the chain
-        res = qa(query)
-        answer, docs = res['result'], [] if args.hide_source else res['source_documents']
-
-        # Print the result
-        print("\n\n> Question:")
-        print(query)
-        print("\n> Answer:")
-        print(answer)
-
-        # Print the relevant sources used for the answer
+    if args.semantic_search:
+        query = args.semantic_search
+        docs = db.similarity_search(query, 4)
         for document in docs:
             print("\n> " + document.metadata["source"] + ":")
             print(document.page_content)
+    else:
+        qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents= not args.hide_source)
+        # Interactive questions and answers
+        while True:
+            query = input("\nEnter a query: ")
+            if query == "exit":
+                break
+
+            # Get the answer from the chain
+            res = qa(query)
+            answer, docs = res['result'], [] if args.hide_source else res['source_documents']
+
+            # Print the result
+            print("\n\n> Question:")
+            print(query)
+            print("\n> Answer:")
+            print(answer)
+
+            # Print the relevant sources used for the answer
+            for document in docs:
+                print("\n> " + document.metadata["source"] + ":")
+                print(document.page_content)
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='privateGPT: Ask questions to your documents without an internet connection, '
@@ -71,6 +79,9 @@ def parse_arguments():
     parser.add_argument("--mute-stream", "-M",
                         action='store_true',
                         help='Use this flag to disable the streaming StdOut callback for LLMs.')
+
+    parser.add_argument("--semantic-search", "-s",
+                        help='Use this flag to query the the contents.')
 
     return parser.parse_args()
 
