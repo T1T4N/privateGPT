@@ -5,6 +5,7 @@ from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.vectorstores import Chroma
 from langchain.llms import GPT4All, LlamaCpp
+from ctransformers.langchain import CTransformers
 import os
 import argparse
 
@@ -30,6 +31,8 @@ def main():
     callbacks = [] if args.mute_stream else [StreamingStdOutCallbackHandler()]
     # Prepare the LLM
     match model_type:
+        case "MPT":
+            llm = CTransformers(model=model_path, model_type='mpt', config={'max_new_tokens': int(model_n_ctx), 'repetition_penalty': 1.1}, callbacks=callbacks, verbose=True)
         case "LlamaCpp":
             llm = LlamaCpp(model_path=model_path, n_ctx=model_n_ctx, callbacks=callbacks, verbose=False)
         case "GPT4All":
