@@ -26,7 +26,12 @@ def main():
     args = parse_arguments()
     embeddings = HuggingFaceEmbeddings(model_name=embeddings_model_name)
     db = Chroma(persist_directory=persist_directory, embedding_function=embeddings, client_settings=CHROMA_SETTINGS)
-    retriever = db.as_retriever(search_kwargs={"k": target_source_chunks})
+    retriever = db.as_retriever(search_kwargs={
+        "distance_metric": "cos",
+        "maximal_marginal_relevance": True,
+        "fetch_k": 100,
+        "k": target_source_chunks
+    })
     # activate/deactivate the streaming StdOut callback for LLMs
     callbacks = [] if args.mute_stream else [StreamingStdOutCallbackHandler()]
     # Prepare the LLM
