@@ -89,7 +89,11 @@ class IngestionHelper:
             )
             # Read as a plain text
             string_reader = StringIterableReader()
-            return string_reader.load_data([file_data.read_text()])
+            try:
+                return string_reader.load_data([file_data.read_text()])
+            except:
+                logging.exception(f"String reader threw an exception when processing: {file_name}")
+                return []
 
         logger.debug("Specific reader found for extension=%s", extension)
         return reader_cls().load_data(file_data)
