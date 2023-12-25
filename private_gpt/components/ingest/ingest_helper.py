@@ -52,7 +52,12 @@ class IngestionHelper:
                 return []
 
         logger.debug("Specific reader found for extension=%s", extension)
-        return reader_cls().load_data(file_data)
+        try:
+            return reader_cls().load_data(file_data)
+        except:
+            # ex. FileNotDecryptedError("File has not been decrypted")
+            logging.exception(f"Reader class threw an exception when processing: {file_name}")
+            return []
 
     @staticmethod
     def _exclude_metadata(documents: list[Document]) -> None:
