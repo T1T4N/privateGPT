@@ -11,6 +11,8 @@ fastapi = { extras = ["all"], version = "^0.110.0" }
 python-multipart = "^0.0.9"
 injector = "^0.21.0"
 pyyaml = "^6.0.1"
+python-multipart = "^0.0.6"
+pypdf = "^3.16.2"
 watchdog = "^4.0.0"
 transformers = "^4.38.2"
 # LlamaIndex core libs
@@ -44,6 +46,7 @@ sentence-transformers = {version ="^2.6.1", optional = true}
 
 # Optional UI
 gradio = {version ="^4.19.2", optional = true}
+docx2txt = "^0.8"
 
 [tool.poetry.extras]
 ui = ["gradio"]
