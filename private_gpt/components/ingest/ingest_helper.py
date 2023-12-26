@@ -59,6 +59,16 @@ FILE_READER_CLS.update(
     }
 )
 
+UNSUPPORTED_FILE_FORMATS = {
+    ".epub",
+    ".jpeg",
+    ".jpg",
+    ".mov",
+    ".mp3",
+    ".mp4",
+    ".png"
+}
+
 
 class IngestionHelper:
     """Helper class to transform a file into a list of documents.
@@ -81,6 +91,9 @@ class IngestionHelper:
     def _load_file_to_documents(file_name: str, file_data: Path) -> list[Document]:
         logger.debug("Transforming file_name=%s into documents", file_name)
         extension = Path(file_name).suffix
+        if extension in UNSUPPORTED_FILE_FORMATS:
+            return []
+
         reader_cls = FILE_READER_CLS.get(extension)
         if reader_cls is None:
             logger.debug(
