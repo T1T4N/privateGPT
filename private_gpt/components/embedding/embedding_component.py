@@ -20,9 +20,9 @@ class EmbeddingComponent:
         logger.info("Initializing the embedding model in mode=%s", embedding_mode)
         match embedding_mode:
             case "local":
-                from llama_index.embeddings import HuggingFaceEmbedding
+                from llama_index.embeddings import HuggingFaceEmbedding as LocalEmbedding
 
-                self.embedding_model = HuggingFaceEmbedding(
+                self.embedding_model = LocalEmbedding(
                     model_name=settings.local.embedding_hf_model_name,
                     cache_folder=str(models_cache_path),
                 )
