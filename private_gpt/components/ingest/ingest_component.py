@@ -123,9 +123,16 @@ class SimpleIngestComponent(BaseIngestComponentWithIndex):
 
     def bulk_ingest(self, files: list[tuple[str, Path]]) -> list[Document]:
         saved_documents = []
+        files_count = len(files)
+        count = 0
         for file_name, file_data in files:
+            logger.info("Ingesting %d of %d - file_name=%s", count, files_count, file_name)
+            count += 1
             documents = IngestionHelper.transform_file_into_documents(
                 file_name, file_data
+            )
+            logger.info(
+                "Transformed file=%s into count=%s documents", file_name, len(documents)
             )
             saved_documents.extend(self._save_docs(documents))
         return saved_documents
@@ -316,6 +323,8 @@ def get_ingestion_component(
 ) -> BaseIngestComponent:
     """Get the ingestion component for the given configuration."""
     ingest_mode = settings.embedding.ingest_mode
+    logger.info("Ingest mode=%s", ingest_mode)
+
     if ingest_mode == "batch":
         return BatchIngestComponent(
             storage_context, service_context, settings.embedding.count_workers
