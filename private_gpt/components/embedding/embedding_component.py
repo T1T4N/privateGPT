@@ -23,6 +23,7 @@ class EmbeddingComponent:
 
                 self.embedding_model = LocalEmbedding(
                     model_name=settings.local.embedding_hf_model_name,
+                    device='mps',
                     cache_folder=str(models_cache_path),
                 )
             case "huggingface":
