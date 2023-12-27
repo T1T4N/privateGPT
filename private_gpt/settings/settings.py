@@ -117,7 +117,10 @@ class NodeStoreSettings(BaseModel):
 class LlamaCPPSettings(BaseModel):
     llm_hf_repo_id: str
     llm_hf_model_file: str
-    prompt_style: Literal["default", "llama2", "tag", "mistral", "chatml"] = Field(
+    embedding_hf_model_name: str = Field(
+        description="Name of the HuggingFace model to use for embeddings"
+    )
+    prompt_style: Literal["default", "llama2", "tag", "mistral", "chatml", "hash"] = Field(
         "llama2",
         description=(
             "The prompt style to use for the chat engine. "
@@ -125,6 +128,8 @@ class LlamaCPPSettings(BaseModel):
             "If `llama2` - use the llama2 prompt style from the llama_index. Based on `<s>`, `[INST]` and `<<SYS>>`.\n"
             "If `tag` - use the `tag` prompt style. It should look like `<|role|>: message`. \n"
             "If `mistral` - use the `mistral prompt style. It shoudl look like <s>[INST] {System Prompt} [/INST]</s>[INST] { UserInstructions } [/INST]"
+            "If `chatml` - use the `chatml` tag prompt style variant. It should look like `<|im_start|>role\nmessage<|im_end|>`. \n"
+            "If `hash` - use the `hash` prompt style. It should look like `### Role:\nmessage`. \n"
             "`llama2` is the historic behaviour. `default` might work better with your custom models."
         ),
     )
