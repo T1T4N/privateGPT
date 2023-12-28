@@ -211,7 +211,11 @@ class BatchIngestComponent(BaseIngestComponentWithIndex):
         with self._index_thread_lock:
             logger.info("Inserting count=%s nodes in the index", len(nodes))
             self._index.insert_nodes(nodes, show_progress=True)
+            documents_count = len(documents)
+            count = 0
             for document in documents:
+                logger.info("Inserting %d out of %d in the index: document=%s", count, documents_count, document.get_doc_id())
+                count += 1
                 self._index.docstore.set_document_hash(
                     document.get_doc_id(), document.hash
                 )
