@@ -5,6 +5,8 @@ from llama_index import Document
 from llama_index.readers import JSONReader, StringIterableReader
 from llama_index.readers.file.base import DEFAULT_FILE_READER_CLS
 
+from private_gpt.components.ingest.emlx_reader import EmlxReader
+
 logger = logging.getLogger(__name__)
 
 # Patching the default file reader to support other file types
@@ -12,6 +14,7 @@ FILE_READER_CLS = DEFAULT_FILE_READER_CLS.copy()
 FILE_READER_CLS.update(
     {
         ".json": JSONReader,
+        ".emlx": EmlxReader,
     }
 )
 
