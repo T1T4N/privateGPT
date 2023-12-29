@@ -1122,6 +1122,17 @@ dnspython = ">=2.0.0"
 idna = ">=2.0.0"
 
 [[package]]
+name = "emlx"
+version = "1.0.4"
+description = "The leightweight parser for emlx files."
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "emlx-1.0.4-py3-none-any.whl", hash = "sha256:1ccfdca58c659f1e06f1629bf9e830bbebf9c128493d1d82692447d3f929a31b"},
+    {file = "emlx-1.0.4.tar.gz", hash = "sha256:f1ca1e106f3cdfab10b1888c2520ea6d92ad2a21769f603e345d3458194ae18f"},
+]
+
+[[package]]
 name = "fastapi"
 version = "0.110.0"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
@@ -6342,4 +6353,4 @@ vector-stores-qdrant = ["llama-index-vector-stores-qdrant"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.12"
-content-hash = "65f8a04e7ecb82fd11cc8662188caf3ffae595309f7de478ef10f16f44c2b3da"
+content-hash = "3d3584b1948ba2698fbc1bf2fb97161e4ea3b7f2b6f22c9ca741374f439ed549"

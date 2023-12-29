@@ -47,6 +47,7 @@ sentence-transformers = {version ="^2.6.1", optional = true}
 # Optional UI
 gradio = {version ="^4.19.2", optional = true}
 docx2txt = "^0.8"
+emlx = "^1.0.4"
 
 [tool.poetry.extras]
 ui = ["gradio"]

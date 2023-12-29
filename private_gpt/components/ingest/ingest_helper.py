@@ -6,6 +6,8 @@ from llama_index.core.readers.base import BaseReader
 from llama_index.core.readers.json import JSONReader
 from llama_index.core.schema import Document
 
+from private_gpt.components.ingest.emlx_reader import EmlxReader
+
 logger = logging.getLogger(__name__)
 
 
@@ -56,6 +58,7 @@ FILE_READER_CLS = _try_loading_included_file_formats()
 FILE_READER_CLS.update(
     {
         ".json": JSONReader,
+        ".emlx": EmlxReader,
     }
 )
 
