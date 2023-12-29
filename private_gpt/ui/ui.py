@@ -104,21 +104,21 @@ class PrivateGptUi:
             yield full_response
 
         def build_history() -> list[ChatMessage]:
-            history_messages: list[ChatMessage] = list(
+            history_messages: list[ChatMessage] = list(filter(None, 
                 itertools.chain(
                     *[
                         [
-                            ChatMessage(content=interaction[0], role=MessageRole.USER),
+                            ChatMessage(content=interaction[0], role=MessageRole.USER) if interaction[0] else None,
                             ChatMessage(
                                 # Remove from history content the Sources information
                                 content=interaction[1].split(SOURCES_SEPARATOR)[0],
                                 role=MessageRole.ASSISTANT,
-                            ),
+                            ) if interaction[1] else None,
                         ]
                         for interaction in history
                     ]
                 )
-            )
+            ))
 
             # max 20 messages to try to avoid context overflow
             return history_messages[:20]
