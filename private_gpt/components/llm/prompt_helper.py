@@ -202,8 +202,44 @@ class HashPromptStyle(AbstractPromptStyle):
         )
 
 
+class PlainPromptStyle(AbstractPromptStyle):
+    """Prompt style that uses the prompt style `ROLE:`.
+
+    It transforms the sequence of messages into a prompt that should look like:
+    ```text
+    SYSTEM:
+    your system prompt here.
+
+    USER:
+    user message here
+    (possibly with context and question)
+
+    ASSISTANT:
+    assistant (model) response here.
+    ```
+    """
+
+    def _messages_to_prompt(self, messages: Sequence[ChatMessage]) -> str:
+        """Format message to prompt with `### Role:\nMSG` style."""
+        prompt = ""
+        for message in messages:
+            role = message.role
+            content = message.content or ""
+            message_from_user = f"{role.upper()}:\n{content.strip()}"
+            message_from_user += "\n"
+            prompt += message_from_user
+        # we are missing the last <|assistant|> tag that will trigger a completion
+        prompt += "ASSISTANT:\n"
+        return prompt
+
+    def _completion_to_prompt(self, completion: str) -> str:
+        return self._messages_to_prompt(
+            [ChatMessage(content=completion, role=MessageRole.USER)]
+        )
+
+
 def get_prompt_style(
-    prompt_style: Literal["default", "llama2", "tag", "mistral", "chatml", "hash"] | None
+    prompt_style: Literal["default", "llama2", "tag", "mistral", "chatml", "hash", "plain"] | None
 ) -> AbstractPromptStyle:
     """Get the prompt style to use from the given string.
 
@@ -222,4 +258,6 @@ def get_prompt_style(
         return ChatMLPromptStyle()
     elif prompt_style == "hash":
         return HashPromptStyle()
+    elif prompt_style == "plain":
+        return PlainPromptStyle()
     raise ValueError(f"Unknown prompt_style='{prompt_style}'")
