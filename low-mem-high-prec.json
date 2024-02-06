@@ -1,0 +1,12 @@
+{
+    "vectors": {
+      "size": 768,
+      "distance": "Cosine"
+    },
+    "optimizers_config": {
+        "memmap_threshold": 20000
+    },
+    "hnsw_config": {
+        "on_disk": true
+    }
+}

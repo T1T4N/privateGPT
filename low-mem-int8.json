@@ -1,0 +1,15 @@
+{
+    "vectors": {
+        "size": 768,
+        "distance": "Cosine"
+    },
+    "optimizers_config": {
+        "memmap_threshold": 20000
+    },
+    "quantization_config": {
+        "scalar": {
+            "type": "int8",
+            "always_ram": true
+        }
+    }
+}
