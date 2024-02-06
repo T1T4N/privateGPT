@@ -51,7 +51,11 @@ vectorstore:
   database: qdrant
 
 qdrant:
-  path: local_data/private_gpt/qdrant
+  # path: local_data/private_gpt/qdrant
+  host: localhost
+  # port: 6333
+  grpc_port: 6334
+  prefer_grpc: True
 
 local:
   prompt_style: "mistral"
