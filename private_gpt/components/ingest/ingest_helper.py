@@ -2,10 +2,13 @@ import logging
 from pathlib import Path
 
 from llama_index import Document
+from llama_index import download_loader
 from llama_index.readers import JSONReader, StringIterableReader
 from llama_index.readers.file.base import DEFAULT_FILE_READER_CLS
 
 from private_gpt.components.ingest.emlx_reader import EmlxReader
+
+UnstructuredReader = download_loader("UnstructuredReader")
 
 logger = logging.getLogger(__name__)
 
@@ -15,17 +18,58 @@ FILE_READER_CLS.update(
     {
         ".json": JSONReader,
         ".emlx": EmlxReader,
+
+        ".docx": UnstructuredReader,
+        ".doc": UnstructuredReader,
+        ".odt": UnstructuredReader,
+        ".pptx": UnstructuredReader,
+        ".ppt": UnstructuredReader,
+        ".xlsx": UnstructuredReader,
+        ".csv": UnstructuredReader,
+        ".tsv": UnstructuredReader,
+        ".eml": UnstructuredReader,
+        ".msg": UnstructuredReader,
+        ".rtf": UnstructuredReader,
+        ".epub": UnstructuredReader,
+        ".html": UnstructuredReader,
+        ".xml": UnstructuredReader,
+        ".pdf": UnstructuredReader,
+        ".png": UnstructuredReader,
+        ".jpg": UnstructuredReader,
+        ".jpg": UnstructuredReader,
+        ".txt": UnstructuredReader,
+
+        ".cpp": UnstructuredReader,
+        ".c": UnstructuredReader,
+        ".cc": UnstructuredReader,
+        ".cs": UnstructuredReader,
+        ".cxx": UnstructuredReader,
+        ".go": UnstructuredReader,
+        ".java": UnstructuredReader,
+        ".js": UnstructuredReader,
+        ".m": UnstructuredReader,
+        ".mm": UnstructuredReader,
+        ".php": UnstructuredReader,
+        ".py": UnstructuredReader,
+        ".rb": UnstructuredReader,
+        ".swift": UnstructuredReader,
+        ".ts": UnstructuredReader,
     }
 )
 
 UNSUPPORTED_FILE_FORMATS = {
+    ".DS_Store",
+    ".bmp",
     ".epub",
     ".jpeg",
     ".jpg",
     ".mov",
     ".mp3",
     ".mp4",
-    ".png"
+    ".pages",
+    ".png",
+    ".tiff",
+    ".zip"
 }
 
 
